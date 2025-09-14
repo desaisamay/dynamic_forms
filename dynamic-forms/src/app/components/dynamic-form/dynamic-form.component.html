@@ -1,0 +1,88 @@
+<div class="card shadow-sm">
+  <div class="card-header bg-primary text-white">
+    <h5 class="mb-0">{{ schema.title }}</h5>
+  </div>
+
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+      
+      <div *ngFor="let field of schema.fields" class="mb-3">
+        
+        <!-- Label -->
+        <label [for]="field.name" class="form-label fw-bold">
+          {{ field.label }} 
+          <span *ngIf="field.required" class="text-danger">*</span>
+        </label>
+
+        <!-- Text / Date -->
+        <input *ngIf="field.type === 'text' || field.type === 'date'"
+               [attr.type]="field.type"
+               class="form-control"
+               [id]="field.name"
+               [formControlName]="field.name">
+
+        <!-- Textarea -->
+        <textarea *ngIf="field.type === 'textarea'"
+                  class="form-control"
+                  rows="3"
+                  [id]="field.name"
+                  [formControlName]="field.name"></textarea>
+
+        <!-- Dropdown -->
+        <select *ngIf="field.type === 'dropdown'"
+                class="form-select"
+                [id]="field.name"
+                [formControlName]="field.name">
+          <option value="">-- Select --</option>
+          <option *ngFor="let option of field.options" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+
+        <!-- Multi-select -->
+        <select *ngIf="field.type === 'multiselect'"
+                class="form-select"
+                multiple
+                [id]="field.name"
+                [formControlName]="field.name">
+          <option *ngFor="let option of field.options" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+
+        <!-- Checkbox -->
+        <div *ngIf="field.type === 'checkbox'" class="form-check">
+          <input type="checkbox"
+                 class="form-check-input"
+                 [id]="field.name"
+                 [formControlName]="field.name">
+          <label [for]="field.name" class="form-check-label">
+            {{ field.label }}
+          </label>
+        </div>
+
+        <!-- Validation messages -->
+        <div *ngIf="(form.get(field.name)?.touched || submitted) && form.get(field.name)?.invalid"
+             class="text-danger small mt-1">
+
+          <!-- Required -->
+          <div *ngIf="form.get(field.name)?.errors?.['required']">
+            {{ field.label }} is required
+          </div>
+
+          <!-- Pattern -->
+          <div *ngIf="form.get(field.name)?.errors?.['pattern']">
+            {{ field.validation?.message || (field.label + ' is invalid') }}
+          </div>
+
+        </div>
+      </div>
+
+      <button class="btn btn-success w-100 mt-3"
+              type="submit"
+              [disabled]="form.invalid">
+        Submit
+      </button>
+    </form>
+  </div>
+</div>

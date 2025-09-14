@@ -1,0 +1,29 @@
+.dynamic-form {
+  max-width: 700px;
+  margin: 0 auto;
+}
+.form-field {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+label {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+input[type="text"],
+textarea,
+select,
+input[type="date"] {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+.error {
+  color: #b00020;
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+}
+button {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+}
